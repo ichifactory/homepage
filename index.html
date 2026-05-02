@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ichifactory – フリーランス IT エンジニア</title>
+  <style>
+    /* ── Reset & Base ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --blue:    #1a6fd4;
+      --blue-d:  #0f4fa0;
+      --blue-l:  #e8f1fb;
+      --teal:    #0eb8c8;
+      --dark:    #0d1b2a;
+      --text:    #1e2a3a;
+      --muted:   #5a6a7a;
+      --border:  #d8e4f0;
+      --white:   #ffffff;
+      --radius:  10px;
+    }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Helvetica Neue', Arial, 'Hiragino Sans', 'Meiryo', sans-serif;
+      color: var(--text);
+      background: var(--white);
+      line-height: 1.75;
+    }
+    a { color: inherit; text-decoration: none; }
+    img { max-width: 100%; display: block; }
+
+    /* ── Header / Nav ── */
+    header {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(255,255,255,0.95);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--border);
+    }
+    nav {
+      max-width: 1100px; margin: 0 auto;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0.75rem 1.5rem;
+    }
+    .nav-logo img { height: 48px; border-radius: 12px; background: #0a1d2c; }
+    .nav-links { display: flex; gap: 2rem; font-size: 0.95rem; }
+    .nav-links a { color: var(--muted); transition: color .2s; }
+    .nav-links a:hover { color: var(--blue); }
+    .nav-cta {
+      background: var(--blue); color: var(--white);
+      padding: 0.5rem 1.2rem; border-radius: 6px;
+      font-size: 0.9rem; transition: background .2s;
+    }
+    .nav-cta:hover { background: var(--blue-d); }
+
+    /* ── Hero ── */
+    .hero {
+      background: linear-gradient(135deg, #0d1b2a 0%, #0f4fa0 50%, #0eb8c8 100%);
+      color: var(--white);
+      padding: 7rem 1.5rem 6rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60'%3E%3Ccircle cx='30' cy='30' r='1' fill='rgba(255,255,255,0.08)'/%3E%3C/svg%3E") repeat;
+      pointer-events: none;
+    }
+    .hero-inner { position: relative; max-width: 780px; margin: 0 auto; }
+    .hero-logo { height: 140px; margin: 0 auto 2rem; mix-blend-mode: screen; }
+    .hero h1 { font-size: clamp(2rem, 5vw, 3.2rem); font-weight: 700; line-height: 1.25; margin-bottom: 1.2rem; }
+    .hero h1 span { color: var(--teal); }
+    .hero p { font-size: 1.15rem; opacity: .85; margin-bottom: 2.5rem; }
+    .hero-btns { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+    .btn-primary {
+      background: var(--teal); color: var(--white);
+      padding: .85rem 2.2rem; border-radius: 6px; font-size: 1rem; font-weight: 600;
+      transition: opacity .2s;
+    }
+    .btn-primary:hover { opacity: .85; }
+    .btn-outline {
+      border: 2px solid rgba(255,255,255,.6); color: var(--white);
+      padding: .85rem 2.2rem; border-radius: 6px; font-size: 1rem;
+      transition: background .2s;
+    }
+    .btn-outline:hover { background: rgba(255,255,255,.1); }
+
+    /* ── Section ── */
+    section { padding: 5rem 1.5rem; }
+    .section-inner { max-width: 1100px; margin: 0 auto; }
+    .section-tag {
+      display: inline-block; font-size: .78rem; font-weight: 700;
+      letter-spacing: .1em; text-transform: uppercase;
+      color: var(--blue); background: var(--blue-l);
+      padding: .25rem .8rem; border-radius: 4px; margin-bottom: .8rem;
+    }
+    h2 { font-size: clamp(1.5rem, 3vw, 2.1rem); font-weight: 700; margin-bottom: 1rem; }
+    .lead { color: var(--muted); font-size: 1.05rem; max-width: 640px; }
+
+    /* ── Skills ── */
+    #skills { background: var(--blue-l); }
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.5rem; margin-top: 3rem;
+    }
+    .skill-card {
+      background: var(--white); border-radius: var(--radius);
+      padding: 1.8rem; border: 1px solid var(--border);
+      transition: box-shadow .2s, transform .2s;
+    }
+    .skill-card:hover { box-shadow: 0 8px 28px rgba(26,111,212,.12); transform: translateY(-3px); }
+    .skill-icon {
+      width: 52px; height: 52px; border-radius: 12px;
+      background: linear-gradient(135deg, var(--blue), var(--teal));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.6rem; margin-bottom: 1rem;
+    }
+    .skill-card h3 { font-size: 1.05rem; margin-bottom: .5rem; }
+    .skill-card p { font-size: .9rem; color: var(--muted); }
+    .skill-tags { display: flex; flex-wrap: wrap; gap: .4rem; margin-top: .9rem; }
+    .tag {
+      font-size: .78rem; padding: .2rem .65rem; border-radius: 20px;
+      background: var(--blue-l); color: var(--blue); font-weight: 600;
+    }
+
+    /* ── Services ── */
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.5rem; margin-top: 3rem;
+    }
+    .service-card {
+      border: 1px solid var(--border); border-radius: var(--radius);
+      padding: 2rem; position: relative; overflow: hidden;
+      transition: box-shadow .2s;
+    }
+    .service-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px;
+      background: linear-gradient(90deg, var(--blue), var(--teal));
+    }
+    .service-card:hover { box-shadow: 0 8px 28px rgba(26,111,212,.1); }
+    .service-card h3 { font-size: 1.1rem; margin-bottom: .7rem; }
+    .service-card p { font-size: .92rem; color: var(--muted); }
+    .service-card ul { margin-top: .8rem; padding-left: 1.2rem; color: var(--muted); font-size: .9rem; }
+    .service-card ul li { margin-bottom: .3rem; }
+
+    /* ── About ── */
+    #about { background: var(--dark); color: var(--white); }
+    #about .lead { color: rgba(255,255,255,.7); max-width: 680px; }
+    #about h2 { color: var(--white); }
+    .about-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 3rem; margin-top: 3rem; align-items: start;
+    }
+    .about-list { list-style: none; }
+    .about-list li {
+      display: flex; align-items: flex-start; gap: .8rem;
+      padding: .9rem 0; border-bottom: 1px solid rgba(255,255,255,.08);
+      font-size: .95rem;
+    }
+    .about-list li:last-child { border-bottom: none; }
+    .about-list .lbl {
+      min-width: 120px; color: var(--teal); font-weight: 600; font-size: .85rem;
+    }
+    .about-val { color: rgba(255,255,255,.85); }
+    .strength-cards { display: flex; flex-direction: column; gap: 1rem; }
+    .strength-card {
+      background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.1);
+      border-radius: var(--radius); padding: 1.2rem 1.5rem;
+    }
+    .strength-card h4 { font-size: .95rem; color: var(--teal); margin-bottom: .3rem; }
+    .strength-card p { font-size: .88rem; color: rgba(255,255,255,.7); }
+
+    /* ── Contact ── */
+    #contact { background: var(--blue-l); }
+    .contact-box {
+      max-width: 600px; margin: 3rem auto 0;
+      background: var(--white); border-radius: var(--radius);
+      border: 1px solid var(--border); padding: 2.5rem;
+      text-align: center;
+    }
+    .contact-box p { color: var(--muted); margin-bottom: 1.8rem; }
+    .contact-email {
+      display: inline-flex; align-items: center; gap: .6rem;
+      background: var(--blue); color: var(--white);
+      padding: 1rem 2.4rem; border-radius: 6px; font-size: 1rem; font-weight: 600;
+      transition: background .2s;
+    }
+    .contact-email:hover { background: var(--blue-d); }
+
+    /* ── Footer ── */
+    footer {
+      background: var(--dark); color: rgba(255,255,255,.5);
+      text-align: center; padding: 2rem 1rem; font-size: .85rem;
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 720px) {
+      .nav-links { display: none; }
+      .about-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── Header ── -->
+<header>
+  <nav>
+    <a class="nav-logo" href="#"><img src="logo.png" alt="ichifactory ロゴ" /></a>
+    <div class="nav-links">
+      <a href="#skills">スキル</a>
+      <a href="#services">サービス</a>
+      <a href="#about">プロフィール</a>
+      <a href="#contact">お問い合わせ</a>
+    </div>
+    <a href="#contact" class="nav-cta">お仕事のご依頼</a>
+  </nav>
+</header>
+
+<!-- ── Hero ── -->
+<section class="hero">
+  <div class="hero-inner">
+    <img class="hero-logo" src="logo.png" alt="ichifactory" />
+    <h1>プログラム・クラウド・インフラを<br /><span>ワンストップで解決</span>します</h1>
+    <p>ichifactory は、東京を拠点に活動するフリーランス IT エンジニアです。<br />
+       システム開発からクラウド基盤の構築・運用まで、幅広く対応します。</p>
+    <div class="hero-btns">
+      <a href="#services" class="btn-primary">サービス内容を見る</a>
+      <a href="#contact" class="btn-outline">お問い合わせ</a>
+    </div>
+  </div>
+</section>
+
+<!-- ── Skills ── -->
+<section id="skills">
+  <div class="section-inner">
+    <span class="section-tag">Skills</span>
+    <h2>得意な技術領域</h2>
+    <p class="lead">長年の実務経験をもとに、開発からインフラ・クラウドまでフルスタックで対応できます。</p>
+
+    <div class="skills-grid">
+
+      <div class="skill-card">
+        <div class="skill-icon">💻</div>
+        <h3>バックエンド開発</h3>
+        <p>API 設計・実装、マイクロサービス、DB 設計など堅牢なサーバーサイドを構築します。</p>
+        <div class="skill-tags">
+          <span class="tag">Python</span>
+          <span class="tag">Go</span>
+          <span class="tag">Node.js</span>
+          <span class="tag">REST API</span>
+          <span class="tag">PostgreSQL</span>
+        </div>
+      </div>
+
+      <div class="skill-card">
+        <div class="skill-icon">📱</div>
+        <h3>モバイル・フロントエンド開発</h3>
+        <p>Flutter による iOS/Android クロスプラットフォーム開発、Web フロントエンドも対応。</p>
+        <div class="skill-tags">
+          <span class="tag">Flutter</span>
+          <span class="tag">Dart</span>
+          <span class="tag">React</span>
+          <span class="tag">TypeScript</span>
+        </div>
+      </div>
+
+      <div class="skill-card">
+        <div class="skill-icon">☁️</div>
+        <h3>クラウドインフラ（AWS）</h3>
+        <p>AWS 各サービスの設計・構築・コスト最適化。IaC による再現性の高い環境構築。</p>
+        <div class="skill-tags">
+          <span class="tag">AWS</span>
+          <span class="tag">EC2 / ECS</span>
+          <span class="tag">Lambda</span>
+          <span class="tag">RDS</span>
+          <span class="tag">Terraform</span>
+        </div>
+      </div>
+
+      <div class="skill-card">
+        <div class="skill-icon">🔧</div>
+        <h3>DevOps / CI-CD</h3>
+        <p>GitHub Actions・CI/CD パイプライン構築、Docker/Kubernetes によるコンテナ運用。</p>
+        <div class="skill-tags">
+          <span class="tag">Docker</span>
+          <span class="tag">Kubernetes</span>
+          <span class="tag">GitHub Actions</span>
+          <span class="tag">Linux</span>
+        </div>
+      </div>
+
+      <div class="skill-card">
+        <div class="skill-icon">🔒</div>
+        <h3>セキュリティ・監視</h3>
+        <p>セキュリティ設計、脆弱性対応、CloudWatch・Datadog などを用いた監視体制の整備。</p>
+        <div class="skill-tags">
+          <span class="tag">IAM</span>
+          <span class="tag">CloudWatch</span>
+          <span class="tag">Datadog</span>
+          <span class="tag">OWASP</span>
+        </div>
+      </div>
+
+      <div class="skill-card">
+        <div class="skill-icon">🗄️</div>
+        <h3>データベース・設計</h3>
+        <p>RDB・NoSQL の設計・チューニング。要件定義から ER 設計まで上流工程も対応。</p>
+        <div class="skill-tags">
+          <span class="tag">MySQL</span>
+          <span class="tag">PostgreSQL</span>
+          <span class="tag">DynamoDB</span>
+          <span class="tag">Redis</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ── Services ── -->
+<section id="services">
+  <div class="section-inner">
+    <span class="section-tag">Services</span>
+    <h2>提供サービス</h2>
+    <p class="lead">要件定義から保守運用まで、プロジェクトのフェーズに合わせて柔軟にご支援します。</p>
+
+    <div class="services-grid">
+
+      <div class="service-card">
+        <h3>🖥️ システム開発</h3>
+        <p>業務システム・Web サービス・API の設計・開発。小規模 MVP から大規模サービスまで対応。</p>
+        <ul>
+          <li>要件定義・設計</li>
+          <li>バックエンド / フロントエンド実装</li>
+          <li>モバイルアプリ（Flutter）</li>
+          <li>既存システムのリファクタリング</li>
+        </ul>
+      </div>
+
+      <div class="service-card">
+        <h3>☁️ クラウド構築・移行</h3>
+        <p>オンプレミスからクラウドへの移行、AWS 環境の新規構築・最適化を支援します。</p>
+        <ul>
+          <li>AWS アーキテクチャ設計</li>
+          <li>Terraform / CDK による IaC 化</li>
+          <li>コスト最適化・セキュリティ強化</li>
+          <li>クラウドネイティブ化支援</li>
+        </ul>
+      </div>
+
+      <div class="service-card">
+        <h3>⚙️ インフラ・運用保守</h3>
+        <p>サーバー構築から監視・障害対応まで、安定稼働を継続的にサポートします。</p>
+        <ul>
+          <li>Linux サーバー構築・管理</li>
+          <li>CI/CD パイプライン整備</li>
+          <li>監視・アラート設定</li>
+          <li>インシデント対応・障害分析</li>
+        </ul>
+      </div>
+
+      <div class="service-card">
+        <h3>🤝 技術顧問・スポット相談</h3>
+        <p>技術選定・アーキテクチャレビュー・チームへの技術支援をスポットで提供します。</p>
+        <ul>
+          <li>技術スタック選定アドバイス</li>
+          <li>コードレビュー・品質改善</li>
+          <li>開発チームのメンタリング</li>
+          <li>スポットコンサルティング（1h〜）</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ── About ── -->
+<section id="about">
+  <div class="section-inner">
+    <span class="section-tag" style="background:rgba(14,184,200,.15); color:var(--teal);">Profile</span>
+    <h2>プロフィール</h2>
+    <p class="lead">フリーランスとして、スタートアップから大手企業まで幅広いプロジェクトに携わってきました。</p>
+
+    <div class="about-grid">
+      <ul class="about-list">
+        <li><span class="lbl">屋号</span><span class="about-val">ichifactory</span></li>
+        <li><span class="lbl">所在地</span><span class="about-val">東京都</span></li>
+        <li><span class="lbl">事業形態</span><span class="about-val">個人事業主（フリーランス）</span></li>
+        <li><span class="lbl">専門領域</span><span class="about-val">プログラム開発、クラウドインフラ、DevOps</span></li>
+        <li><span class="lbl">対応形態</span><span class="about-val">リモート・常駐（応相談）</span></li>
+        <li><span class="lbl">稼働</span><span class="about-val">週3日〜5日（応相談）</span></li>
+        <li><span class="lbl">連絡先</span><span class="about-val">contact@ichifactory.com</span></li>
+      </ul>
+
+      <div class="strength-cards">
+        <div class="strength-card">
+          <h4>🎯 フルスタック対応</h4>
+          <p>フロントエンドからインフラまで一貫して担当できるため、コミュニケーションコストを削減し、スピーディーな開発を実現します。</p>
+        </div>
+        <div class="strength-card">
+          <h4>☁️ クラウドネイティブな設計</h4>
+          <p>AWS を中心としたクラウドファーストな設計・構築が得意。スケーラブルでコスト効率の高いシステムを提案します。</p>
+        </div>
+        <div class="strength-card">
+          <h4>🚀 スモールスタート対応</h4>
+          <p>MVP から始めてスケールさせる開発アプローチが得意。スタートアップや新規事業のスピード感に合わせます。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Contact ── -->
+<section id="contact">
+  <div class="section-inner">
+    <span class="section-tag">Contact</span>
+    <h2>お問い合わせ</h2>
+    <p class="lead">お仕事のご依頼・ご相談はメールにてお気軽にどうぞ。通常 1 営業日以内にご返信します。</p>
+
+    <div class="contact-box">
+      <p>案件のご相談・技術的なご質問・お見積りなど、<br />まずはお気軽にお問い合わせください。</p>
+      <a href="mailto:contact@ichifactory.com" class="contact-email">
+        ✉️ &nbsp;contact@ichifactory.com
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ── Footer ── -->
+<footer>
+  <p>&copy; 2026 ichifactory. All rights reserved.</p>
+</footer>
+
+</body>
+</html>
